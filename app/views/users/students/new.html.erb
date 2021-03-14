@@ -1,0 +1,27 @@
+<h2>Sign up</h2>
+
+<%= form_tag(send_request_path, method: :post)  do %>
+
+  <div class="col-sm-3 my-1">
+    <%= text_field_tag(:email, '', class: "form-control", placeholder: "Email") %>
+  </div>
+
+  <div class="col-auto my-1">
+    <%= button_tag 'Request', class: "btn btn-primary" %>
+  </div>
+<% end %>
+
+
+<%#= form_tag(search_page_path, method: :get) do %>
+<!--  <div class="form-row align-items-center">-->
+<!--    <div class="col-sm-3 my-1">-->
+      <%#= text_field_tag(:student_name, '', class: "form-control", placeholder: "Student name") %>
+<!--    </div>-->
+<!--    <div class="col-sm-3 my-1">-->
+      <%#= text_field_tag(:institution_name, '', class: "form-control", placeholder: "Institution") %>
+<!--    </div>-->
+<!--    <div class="col-auto my-1">-->
+      <%#= button_tag 'Search', class: "btn btn-primary" %>
+<!--    </div>-->
+<!--  </div>-->
+<%# end %>

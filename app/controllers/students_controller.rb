@@ -1,11 +1,13 @@
 class StudentsController < ApplicationController
-  before_action :set_student, only: %i[show edit update destroy]
+  skip_before_action :authenticate_user!, only: %i[new create]
+
+  before_action :set_student, only: %i[show edit update destroy accept_student]
   # before_action :set_institution, only: :search
 
   # GET /students
   # GET /students.json
   def index
-    @students = Student.paginate(page: params[:page], per_page: 10).order(id: :desc)
+    @students = Student.accepted.paginate(page: params[:page], per_page: 10).order(id: :desc)
   end
 
   # GET /students/1
@@ -24,10 +26,31 @@ class StudentsController < ApplicationController
     if params[:student_name].blank? && params[:institution_name].blank?
       redirect_to(root_path, alert: 'Empty Field!') && nil
     else
-      @search_result = Student.joins(:institution).where('lower(name) like (?) AND lower(full_name) LIKE (?)', "%#{params[:institution_name].downcase}%", "%#{params[:student_name].downcase}%").paginate(page: params[:page], per_page: 10)
+      @search_result = Student.accepted.joins(:institution).where('lower(name) like (?) AND lower(full_name) LIKE (?)', "%#{params[:institution_name].downcase}%", "%#{params[:student_name].downcase}%").paginate(page: params[:page], per_page: 10)
       respond_to do |format|
         format.html { render :search }
       end
+    end
+  end
+
+  def accept_student
+    @student.status = 'accepted' if current_user.present?
+
+    respond_to do |format|
+      if @student.save
+        format.html { redirect_to @student, notice: 'Student Accepted successfully.' }
+        format.json { render :show, status: :created, location: @student }
+      else
+        format.html { render :new }
+        format.json { render json: @student.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def list_pending_request
+    @students = Student.get_pending.paginate(page: params[:page], per_page: 10).order(id: :desc)
+    respond_to do |format|
+      format.html { render :index }
     end
   end
 
@@ -35,6 +58,8 @@ class StudentsController < ApplicationController
   # POST /students.json
   def create
     @student = Student.new(student_params)
+
+    @student.status = 'accepted' if current_user.present?
 
     respond_to do |format|
       if @student.save
@@ -68,6 +93,28 @@ class StudentsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to students_url, notice: 'Student was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def list_by_full_name
+    if params[:v_order] == 'down'
+      @students = Student.paginate(page: params[:page], per_page: 10).order(full_name: :desc)
+    else
+      @students = Student.paginate(page: params[:page], per_page: 10).order(:full_name)
+    end
+    respond_to do |format|
+      format.html { render :index }
+    end
+  end
+
+  def list_by_institution
+    if params[:i_order] == 'down'
+      @students = Student.joins(:institution).paginate(page: params[:page], per_page: 10).order(name: :desc)
+    else
+      @students = Student.joins(:institution).paginate(page: params[:page], per_page: 10).order(:name)
+    end
+    respond_to do |format|
+      format.html { render :index }
     end
   end
 

@@ -6,8 +6,11 @@ ruby '2.5.1'
 gem 'will_paginate'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem 'pry'
 gem 'rails', '~> 5.2.4'
 # gem 'mysql2'
+
+
 
 gem 'pg'
 
