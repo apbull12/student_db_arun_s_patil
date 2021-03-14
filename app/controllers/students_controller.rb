@@ -1,10 +1,11 @@
 class StudentsController < ApplicationController
   before_action :set_student, only: %i[show edit update destroy]
+  # before_action :set_institution, only: :search
 
   # GET /students
   # GET /students.json
   def index
-    @students = Student.all
+    @students = Student.paginate(page: params[:page], per_page: 10).order(id: :desc)
   end
 
   # GET /students/1
@@ -18,6 +19,17 @@ class StudentsController < ApplicationController
 
   # GET /students/1/edit
   def edit; end
+
+  def search
+    if params[:student_name].blank? && params[:institution_name].blank?
+      redirect_to(root_path, alert: 'Empty Field!') && nil
+    else
+      @search_result = Student.joins(:institution).where('lower(name) like (?) AND lower(full_name) LIKE (?)', "%#{params[:institution_name].downcase}%", "%#{params[:student_name].downcase}%").paginate(page: params[:page], per_page: 10)
+      respond_to do |format|
+        format.html { render :search }
+      end
+    end
+  end
 
   # POST /students
   # POST /students.json
@@ -66,8 +78,13 @@ class StudentsController < ApplicationController
     @student = Student.find(params[:id])
   end
 
+  def set_institution
+    @institution_ids = Institution.where('lower(name) LIKE (?)', "%#{params[:institution_name]}%").pluck(:id) if params[:institution_name].present?
+  end
+
   # Never trust parameters from the scary internet, only allow the white list through.
   def student_params
-    params.require(:student).permit(:full_name, :address, :mobile, :institution_id)
+    params.require(:student).permit(:full_name, :address, :mobile,
+                                    :institution_id, :page, :student_name, :institution_name)
   end
 end

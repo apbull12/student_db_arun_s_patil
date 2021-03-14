@@ -1,4 +1,4 @@
-<%= form_with path: students_path, method: :get do |f| %>
+<%= form_tag(search_page_path, method: :get) do %>
   <div class="form-row align-items-center">
     <div class="col-sm-3 my-1">
       <%= text_field_tag(:student_name, '', class: "form-control", placeholder: "Student name") %>
@@ -7,7 +7,7 @@
       <%= text_field_tag(:institution_name, '', class: "form-control", placeholder: "Institution") %>
     </div>
     <div class="col-auto my-1">
-      <%= button_tag 'Submit', class: "btn btn-primary" %>
+      <%= button_tag 'Search', class: "btn btn-primary" %>
     </div>
-  </div>  
+  </div>
 <% end %>
