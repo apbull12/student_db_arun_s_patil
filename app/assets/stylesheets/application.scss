@@ -15,3 +15,12 @@
  */
 
  @import "bootstrap";
+
+.pagination {
+  a {
+    padding: 0px 10px;
+  }
+  em {
+    padding: 0px 10px;
+  }
+}

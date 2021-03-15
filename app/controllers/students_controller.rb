@@ -57,7 +57,7 @@ class StudentsController < ApplicationController
   def list_pending_request
     @students = Student.get_pending.paginate(page: params[:page], per_page: 10).order(id: :desc)
     respond_to do |format|
-      format.html { render :index }
+      format.html { render :pending_requests }
     end
   end
 
