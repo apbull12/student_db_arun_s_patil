@@ -1,5 +1,5 @@
 class StudentsController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[new create]
+  skip_before_action :authenticate_user!, only: %i[registration create]
 
   before_action :set_student, only: %i[show edit update destroy accept_student]
   # before_action :set_institution, only: :search
@@ -17,6 +17,13 @@ class StudentsController < ApplicationController
   # GET /students/new
   def new
     @student = Student.new
+  end
+
+  def registration
+    @student = Student.new
+    respond_to do |format|
+      format.html { render :registration_form }
+    end
   end
 
   # GET /students/1/edit
@@ -59,15 +66,25 @@ class StudentsController < ApplicationController
   def create
     @student = Student.new(student_params)
 
-    @student.status = 'accepted' if current_user.present?
+    if current_user.present?
+      @student.status = 'accepted'
 
-    respond_to do |format|
-      if @student.save
-        format.html { redirect_to @student, notice: 'Student was successfully created.' }
-        format.json { render :show, status: :created, location: @student }
-      else
-        format.html { render :new }
-        format.json { render json: @student.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @student.save
+          format.html { redirect_to @student, notice: 'Student was successfully created.' }
+          format.json { render :show, status: :created, location: @student }
+        else
+          format.html { render :new }
+          format.json { render json: @student.errors, status: :unprocessable_entity }
+        end
+      end
+    else
+      respond_to do |format|
+        if @student.save
+          format.html { render :register_thanks }
+        else
+          format.json { render json: @student.errors, status: :unprocessable_entity }
+        end
       end
     end
   end

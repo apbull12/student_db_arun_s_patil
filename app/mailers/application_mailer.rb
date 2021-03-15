@@ -4,6 +4,6 @@ class ApplicationMailer < ActionMailer::Base
 
   def send_registration_link(email)
     # @user = params[:user]
-    mail(to: email, subject: 'Welcome to My Awesome Site')
+    mail(to: email, subject: 'Welcome to Our Student Master APP')
   end
 end
