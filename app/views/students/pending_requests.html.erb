@@ -9,6 +9,7 @@
   <tr>
     <th>Full Name</th>
     <th>Address</th>
+    <th>Email</th>
     <th>Mobile</th>
     <th>Institution</th>
     <th colspan="2"></th>
@@ -20,6 +21,7 @@
     <tr>
       <td><%= student.full_name %> </td>
       <td><%= student.address %></td>
+      <td><%= student.email %></td>
       <td><%= student.mobile %></td>
       <td><%= student.institution.name %></td>
       <td><%= link_to 'Delete', student, method: :delete, data: { confirm: 'Are you sure?' } %></td>

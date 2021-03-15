@@ -1,5 +1,6 @@
-class UsersController < ApplicationController
+# frozen_string_literal: true
 
+class UsersController < ApplicationController
   def new_student_registration
     respond_to do |format|
       format.html { render :'users/students/new' }

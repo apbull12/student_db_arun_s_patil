@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class StudentsControllerTest < ActionDispatch::IntegrationTest
@@ -5,17 +7,17 @@ class StudentsControllerTest < ActionDispatch::IntegrationTest
     @student = students(:one)
   end
 
-  test "should get index" do
+  test 'should get index' do
     get students_url
     assert_response :success
   end
 
-  test "should get new" do
+  test 'should get new' do
     get new_student_url
     assert_response :success
   end
 
-  test "should create student" do
+  test 'should create student' do
     assert_difference('Student.count') do
       post students_url, params: { student: { address: @student.address, full_name: @student.full_name, institution_id: @student.institution_id, phone: @student.phone } }
     end
@@ -23,22 +25,22 @@ class StudentsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to student_url(Student.last)
   end
 
-  test "should show student" do
+  test 'should show student' do
     get student_url(@student)
     assert_response :success
   end
 
-  test "should get edit" do
+  test 'should get edit' do
     get edit_student_url(@student)
     assert_response :success
   end
 
-  test "should update student" do
+  test 'should update student' do
     patch student_url(@student), params: { student: { address: @student.address, full_name: @student.full_name, institution_id: @student.institution_id, phone: @student.phone } }
     assert_redirected_to student_url(@student)
   end
 
-  test "should destroy student" do
+  test 'should destroy student' do
     assert_difference('Student.count', -1) do
       delete student_url(@student)
     end

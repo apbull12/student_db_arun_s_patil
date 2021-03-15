@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationMailer < ActionMailer::Base
   default from: 'arun.s.patil@kreatio.com'
   layout 'mailer'

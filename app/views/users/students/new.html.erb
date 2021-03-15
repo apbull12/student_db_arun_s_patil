@@ -1,12 +1,13 @@
-<h2>Sign up</h2>
-
+<br>
+<h2>Send Registration Request</h2>
+<br>
 <%= form_tag(send_request_path, method: :post)  do %>
 
   <div class="col-sm-3 my-1">
-    <%= email_field_tag(:email, '', class: "form-control", placeholder: "Email") %>
+    <%= email_field_tag(:email, '', class: "form-control", placeholder: "Student Email ID") %>
   </div>
 
   <div class="col-auto my-1">
-    <%= button_tag 'Request', class: "btn btn-primary" %>
+    <%= button_tag 'Send Request', class: "btn btn-primary" %>
   </div>
 <% end %>

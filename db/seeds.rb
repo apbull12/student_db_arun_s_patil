@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
 #
@@ -9,7 +11,7 @@
 institutions = []
 
 5.times do
-  institutions << 
+  institutions <<
     Institution.create(
       name: Faker::University.unique.name,
       address: Faker::Address.unique.full_address,
@@ -23,6 +25,6 @@ end
     address: Faker::Address.unique.full_address,
     email: Faker::Internet.unique.email,
     mobile: Faker::PhoneNumber.unique.phone_number,
-    institution_id: institutions.shuffle.first.id
+    institution_id: institutions.sample.id
   )
 end

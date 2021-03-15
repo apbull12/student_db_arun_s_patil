@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class StudentsController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[registration create]
 
